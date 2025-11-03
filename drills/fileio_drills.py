@@ -35,8 +35,8 @@ def f08_list_files_glob(directory: str | Path, pattern: str = '*.py') -> List[Pa
 
 def f09_walk_files(directory: str | Path) -> List[Path]:
     out: List[Path] = []
-    for root, _, files in os.walk(directory):
-        for name in files:
+    for root, subdir_names_under_root , files_under_root in os.walk(directory):
+        for name in files_under_root:
             out.append(Path(root) / name)
     return out
 
@@ -47,12 +47,24 @@ def f11_move_file(src: str | Path, dst: str | Path) -> Path:
     return Path(shutil.move(src, dst))
 
 def f12_delete_file(path: str | Path, missing_ok: bool = True) -> None:
+    
+    #OPTION 1:
     try:
         Path(path).unlink()
     except FileNotFoundError:
         if not missing_ok: raise
 
-def f13_iter_chunks(path: str | Path, size: int = 8192) -> Iterator[bytes]:
+    '''
+    #OPTION 2:
+    try:
+        os.remove(path)
+    except FileNotFounderror:
+        if not missing_ok:
+            raise
+    '''
+
+
+def f13_iter_byte_chunks(path: str | Path, size: int = 8192) -> Iterator[bytes]:
     with open(path, 'rb') as f:
         while True:
             chunk = f.read(size)
