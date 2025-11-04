@@ -209,3 +209,4 @@ __marimo__/
 # User and project specific ignores should go here
 io_*.txt
 io_*.bin
+io_*.json
